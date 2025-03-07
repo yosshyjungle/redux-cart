@@ -1,9 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CartItem from './CartItem';
+import { clearCart } from '../features/cart/CartSlice';
+import { openModal } from '../features/modal/ModalSlice';
 
 const CartContainer = () => {
     const { amount, cartItems, total } = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+
   if(amount < 1) {
     return (
         <section className='cart'>
@@ -11,7 +15,6 @@ const CartContainer = () => {
                 <h2>買い物かご</h2>
                 <h4 className='empty-cart'>何も入っていません・・・🙁</h4>
             </header>
-
         </section>
       )
     }
@@ -30,7 +33,10 @@ const CartContainer = () => {
                 <div className='cart-total'>
                     <h4>合計<span>{total}円</span></h4>
                 </div>
-                <button className='btn clear-btn'>全削除</button>
+                <button
+                 className='btn clear-btn'
+                 onClick={() => dispatch(openModal())}
+                 >全削除</button>
             </footer>
         </section>
     )
